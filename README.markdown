@@ -21,6 +21,9 @@ What's new:
 History
 -------
 
+### 1.0.1 ###
+Posible release date: 28ER14
+
 ### 0.0.1 ###
 
 - Initial Pre-Release
