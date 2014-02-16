@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>MAF pBA | Personal Budget Administration</title>
+
+  <script class="include" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+  <link class="include" rel="stylesheet" type="text/css" href="plugins/js/jquery/jqplot/css/jquery.jqplot.min.css" />
+  <link href="plugins/js/jquery/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+  <script src="plugins/js/jquery/jquery-ui/js/jquery-1.10.2.js"></script>
+  <script src="plugins/js/jquery/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
+  <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
+  
+  <script type="text/javascript" src="plugins/js/jquery/jqplot/js/jquery.jqplot.js"></script>
+  <script type="text/javascript" src="plugins/js/jquery/jqplot/js/plugins/jqplot.canvasTextRenderer.min.js"></script>
+  <script type="text/javascript" src="plugins/js/jquery/jqplot/js/src/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>  
+  <script class="code" type="text/javascript" language="javascript">
+    $(document).ready(function(){
+
+      $( "#intake_date" ).datepicker();
+
+      $( "#current_period_management" ).tabs();
+
+      var plot1 = $.jqplot ('current_period_chart', [
+            [8300.00,7746.67,7193.33,6640.00,6086.67,5533.33,4980.00,4426.67,3873.33,3320.00,2766.67,2213.33,1660.00,1106.67,553.33],
+            [8000,6000,5000,4000,3500,3000,2600,2100,2000,1900,1400,1000,700,200,0]
+          ], {
+          // Give the plot a title.
+          title: 'Current vs Ideal Intakes',
+          // You can specify options for all axes on the plot at once with
+          // the axesDefaults object.  Here, we're using a canvas renderer
+          // to draw the axis label which allows rotated text.
+          axesDefaults: {
+            labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+          },
+          // An axes object holds options for all axes.
+          // Allowable axes are xaxis, x2axis, yaxis, y2axis, y3axis, ...
+          // Up to 9 y axes are supported.
+          axes: {
+            // options for each axis are specified in seperate option objects.
+            xaxis: {
+              label: "Day",
+              // Turn off "padding".  This will allow data point to lie on the
+              // edges of the grid.  Default padding is 1.2 and will keep all
+              // points inside the bounds of the grid.
+              pad: 0
+            },
+            yaxis: {
+              label: "Ammount"
+            }
+          }
+        });
+
+        $(window).resize(function() {
+          plot1.replot( { resetAxes: true } );
+        });
+
+        
+    });
+  </script>
+</head>
+<body>
+    <div id="header">
+      <h1><b>MAF pBA</b> | Personal Budget Administration</h1>
+    </div>
+    <div id="content">
+      <h2>Period</h2>
+      <select>
+        <option>Select a period...</option>
+      <select>
+      <div id="current_period_status">
+        <div id="current_period_status_header">
+          <h2>Status</h2>
+        </div>
+        <div id="current_period_status_content">
+          <div>
+            <h3>$8,300.00</h3>
+            <h4>Total</h4>
+          </div>
+          <div>
+            <h3>$4,300.00</h3>
+            <h4>Available</h4>
+          </div>
+          <div>
+            <h3>$300.00</h3>
+            <h4>Available per Day</h4>
+          </div>
+        </div>
+      </div>
+      <div id="current_period_management">
+        <ul>
+          <li><a href="#current_period_chart_container">Chart</a></li>
+          <li><a href="#current_period_records_container">Records</a></li>
+          <li><a href="#current_period_budgets_container">Budgets</a></li>
+          <li><a href="#current_period_periods_container">Periods</a></li>
+          <li><a href="#current_period_reports_container">Reports</a></li>
+        </ul>
+        <div id="current_period_chart_container">
+          <div id="current_period_controls">
+              <input id="intake_date">Date:</input>
+              <select>
+                <option>Select a day...</option>
+              <select>
+              <input>Quantity:</input>
+              <select>
+                <option>Select an intake...</option>
+              <select>
+              <button>Add</button>
+          </div>
+          <div id="current_period_chart" style="height:500px;width:90%; margin-left:auto; margin-right:auto;"></div>
+        </div>
+        <div id="current_period_records_container">
+            <table style="width:90%; margin-left:auto; margin-right:auto;">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Budget Day</th>
+                    <th>Quantity</th>
+                    <th>Intake</th>
+                    <th>Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="current_period_budgets_container">
+            <table style="width:90%; margin-left:auto; margin-right:auto;">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Budget Day</th>
+                    <th>Quantity</th>
+                    <th>Intake</th>
+                    <th>Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="current_period_periods_container">
+            <table style="width:90%; margin-left:auto; margin-right:auto;">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Budget Day</th>
+                    <th>Quantity</th>
+                    <th>Intake</th>
+                    <th>Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="current_period_reports_container">
+            <table style="width:90%; margin-left:auto; margin-right:auto;">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Budget Day</th>
+                    <th>Quantity</th>
+                    <th>Intake</th>
+                    <th>Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                  <tr>
+                    <td>DD/MM/YYYY</td>
+                    <td>00</td>
+                    <td>$XXXX.XX</td>
+                    <td>Intake</td>
+                    <td>Modify/Delete</td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+</body>
+
+
+</html>
