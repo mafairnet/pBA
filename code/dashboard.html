@@ -4,14 +4,19 @@
 <head>
   <title>MAF pBA | Personal Budget Administration</title>
 
-  <script class="include" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
+  <script class="include" type="text/javascript" src="plugins/js/jquery/jquery_1.9.1.min.js"></script>
+  <link class="include" rel="stylesheet" type="text/css" href="css/style.css" />
   <link class="include" rel="stylesheet" type="text/css" href="plugins/js/jquery/jqplot/css/jquery.jqplot.min.css" />
-  <link href="plugins/js/jquery/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+  <!--<link href="plugins/js/jquery/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">-->
+  <link rel="stylesheet" href="plugins/js/jquery/metro-ui/css/metro-bootstrap.css">
+  <link rel="stylesheet" href="plugins/js/jquery/metro-ui/css/metro-bootstrap-responsive.css">
   <script src="plugins/js/jquery/jquery-ui/js/jquery-1.10.2.js"></script>
   <script src="plugins/js/jquery/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
+  <script src="plugins/js/jquery/metro-ui/js/min/metro.min.js"></script>
+  <script src="plugins/js/jquery/metro-ui/js/metro-calendar.js"></script>
+  <script src="plugins/js/jquery/metro-ui/js/metro-datepicker.js"></script>
+  <script src="plugins/js/jquery/metro-ui/js/metro-tab-control.js"></script>
   <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
-  
   <script type="text/javascript" src="plugins/js/jquery/jqplot/js/jquery.jqplot.js"></script>
   <script type="text/javascript" src="plugins/js/jquery/jqplot/js/plugins/jqplot.canvasTextRenderer.min.js"></script>
   <script type="text/javascript" src="plugins/js/jquery/jqplot/js/src/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>  
@@ -60,9 +65,10 @@
     });
   </script>
 </head>
-<body>
+<body class="metro">
+    <div id="container">
     <div id="header">
-      <h1><b>MAF pBA</b> | Personal Budget Administration</h1>
+      <h1><b>MAF pBA</b> | Personal Budget Administration System</h1>
     </div>
     <div id="content">
       <h2>Period</h2>
@@ -74,44 +80,54 @@
           <h2>Status</h2>
         </div>
         <div id="current_period_status_content">
-          <div>
+          <div class="status_detail">
             <h3>$8,300.00</h3>
             <h4>Total</h4>
           </div>
-          <div>
+          <div class="status_detail">
             <h3>$4,300.00</h3>
             <h4>Available</h4>
           </div>
-          <div>
+          <div class="status_detail">
             <h3>$300.00</h3>
             <h4>Available per Day</h4>
           </div>
         </div>
       </div>
-      <div id="current_period_management">
-        <ul>
+      <div id="current_period_management" class="tab-control" data-role="tab-control">
+        <ul class="tabs">
           <li><a href="#current_period_chart_container">Chart</a></li>
           <li><a href="#current_period_records_container">Records</a></li>
           <li><a href="#current_period_budgets_container">Budgets</a></li>
           <li><a href="#current_period_periods_container">Periods</a></li>
           <li><a href="#current_period_reports_container">Reports</a></li>
         </ul>
-        <div id="current_period_chart_container">
+        <div class="frames">
+        <div id="current_period_chart_container" class="frame">
           <div id="current_period_controls">
-              <input id="intake_date">Date:</input>
-              <select>
-                <option>Select a day...</option>
-              <select>
-              <input>Quantity:</input>
-              <select>
-                <option>Select an intake...</option>
-              <select>
-              <button>Add</button>
+              <div class="input-control text" style="width:19%;" id="intake_date">
+                <input type="text" placeholder="Date...">
+                <button class="btn-date"></button>
+              </div>
+              <div class="input-control select" style="width:19%;">
+                <select>
+                  <option>Select a day...</option>
+                <select>
+              </div>
+              <div class="input-control text" style="width:19%;">
+                <input type="text" placeholder="Quantity..."></input>
+              </div>
+              <div class="input-control select" style="width:19%;">
+                <select>
+                  <option>Select an intake...</option>
+                <select>
+              </div>
+              <button class="button" style="width:19%;">Add</button>
           </div>
-          <div id="current_period_chart" style="height:500px;width:90%; margin-left:auto; margin-right:auto;"></div>
+          <div id="current_period_chart"></div>
         </div>
-        <div id="current_period_records_container">
-            <table style="width:90%; margin-left:auto; margin-right:auto;">
+        <div id="current_period_records_container" class="frame">
+            <table style="width:90%; margin-left:auto; margin-right:auto;" class="table striped bordered hovered">
                 <thead>
                   <tr>
                     <th>Date</th>
@@ -188,8 +204,8 @@
                 </tbody>
             </table>
         </div>
-        <div id="current_period_budgets_container">
-            <table style="width:90%; margin-left:auto; margin-right:auto;">
+        <div id="current_period_budgets_container" class="frame">
+            <table style="width:90%; margin-left:auto; margin-right:auto;" class="table striped bordered hovered">
                 <thead>
                   <tr>
                     <th>Date</th>
@@ -266,8 +282,8 @@
                 </tbody>
             </table>
         </div>
-        <div id="current_period_periods_container">
-            <table style="width:90%; margin-left:auto; margin-right:auto;">
+        <div id="current_period_periods_container" class="frame">
+            <table style="width:90%; margin-left:auto; margin-right:auto;" class="table striped bordered hovered">
                 <thead>
                   <tr>
                     <th>Date</th>
@@ -344,8 +360,8 @@
                 </tbody>
             </table>
         </div>
-        <div id="current_period_reports_container">
-            <table style="width:90%; margin-left:auto; margin-right:auto;">
+        <div id="current_period_reports_container" class="frame">
+            <table style="width:90%; margin-left:auto; margin-right:auto;" class="table striped bordered hovered">
                 <thead>
                   <tr>
                     <th>Date</th>
@@ -421,8 +437,10 @@
                   </tr>
                 </tbody>
             </table>
+        </div>
         </div>
       </div>
+    </div>
     </div>
 </body>
 
