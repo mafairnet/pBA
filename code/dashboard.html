@@ -10,6 +10,7 @@
   <!--<link href="plugins/js/jquery/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">-->
   <link rel="stylesheet" href="plugins/js/jquery/metro-ui/css/metro-bootstrap.css">
   <link rel="stylesheet" href="plugins/js/jquery/metro-ui/css/metro-bootstrap-responsive.css">
+  <link rel="stylesheet" type="text/css" href="plugins/css/unsemantic/unsemantic-grid-responsive.css">
   <script src="plugins/js/jquery/jquery-ui/js/jquery-1.10.2.js"></script>
   <script src="plugins/js/jquery/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
   <script src="plugins/js/jquery/metro-ui/js/min/metro.min.js"></script>
@@ -19,7 +20,8 @@
   <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
   <script type="text/javascript" src="plugins/js/jquery/jqplot/js/jquery.jqplot.js"></script>
   <script type="text/javascript" src="plugins/js/jquery/jqplot/js/plugins/jqplot.canvasTextRenderer.min.js"></script>
-  <script type="text/javascript" src="plugins/js/jquery/jqplot/js/src/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>  
+  <script type="text/javascript" src="plugins/js/jquery/jqplot/js/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>  
+  <!--<script src="plugins/js/jquery/columnizer/js/jquery.columnizer.js" type="text/javascript" charset="utf-8"></script>-->
   <script class="code" type="text/javascript" language="javascript">
     $(document).ready(function(){
 
@@ -39,6 +41,25 @@
           axesDefaults: {
             labelRenderer: $.jqplot.CanvasAxisLabelRenderer
           },
+
+          seriesDefaults: {
+            shadow: false,   // show shadow or not.
+            markerOptions: {
+              shadow: false       // wether to draw shadow on marker or not.
+            }
+          },
+
+          grid: {
+            drawGridLines: true,        // wether to draw lines across the grid or not.
+            gridLineColor: '#cccccc',    // *Color of the grid lines.
+            background: '#fff',      // CSS color spec for background color of grid.
+            borderColor: '#c5c5c5',     // CSS color spec for border around grid.
+            borderWidth: 2.0,           // pixel width of border around grid.
+            shadow: false,               // draw a shadow for grid.
+            renderer: $.jqplot.CanvasGridRenderer,  // renderer to use to draw the grid.
+            rendererOptions: {}         // options to pass to the renderer.  Note, the default
+                                        // CanvasGridRenderer takes no additional options.
+          },
           // An axes object holds options for all axes.
           // Allowable axes are xaxis, x2axis, yaxis, y2axis, y3axis, ...
           // Up to 9 y axes are supported.
@@ -52,7 +73,8 @@
               pad: 0
             },
             yaxis: {
-              label: "Ammount"
+              label: "Ammount",
+              labelRenderer: $.jqplot.CanvasAxisLabelRenderer
             }
           }
         });
@@ -61,7 +83,7 @@
           plot1.replot( { resetAxes: true } );
         });
 
-        
+        //$('#operations').columnize({width: 400});
     });
   </script>
 </head>
@@ -70,379 +92,512 @@
     <div id="header">
       <h1><b>MAF pBA</b> | Personal Budget Administration System</h1>
     </div>
-    <div id="content">
-      <h2>Period</h2>
-      <select>
-        <option>Select a period...</option>
-      <select>
-      <div id="current_period_status">
-        <div id="current_period_status_header">
-          <h2>Status</h2>
+    <br/>
+    <div id="content" class="grid-container" style="width: 100%; max-width:none !important; padding: 0px !important; margin: 0px !important;">
+      <div id="operations-container" class="grid-25" >
+      <div id="operations" class="panel" data-role="panel" style="margin-bottom:10px;" >
+        <div class="panel-header">
+            <h2>Operations</h2>
         </div>
-        <div id="current_period_status_content">
-          <div class="status_detail">
-            <h3>$8,300.00</h3>
-            <h4>Total</h4>
-          </div>
-          <div class="status_detail">
-            <h3>$4,300.00</h3>
-            <h4>Available</h4>
-          </div>
-          <div class="status_detail">
-            <h3>$300.00</h3>
-            <h4>Available per Day</h4>
-          </div>
-        </div>
-      </div>
-      <div id="current_period_management" class="tab-control" data-role="tab-control">
-        <ul class="tabs">
-          <li><a href="#current_period_chart_container">Chart</a></li>
-          <li><a href="#current_period_records_container">Records</a></li>
-          <li><a href="#current_period_budgets_container">Budgets</a></li>
-          <li><a href="#current_period_periods_container">Periods</a></li>
-          <li><a href="#current_period_reports_container">Reports</a></li>
-        </ul>
-        <div class="frames">
-        <div id="current_period_chart_container" class="frame">
-          <div id="current_period_controls">
-              <div class="input-control text" style="width:19%;" id="intake_date">
+        <div class="panel-content">
+            <label>Period</label>
+            <div class="input-control select">
+              <select>
+                <option>Select a period...</option>
+              <select>
+            </div>
+            <label>Operation</label>
+            <div class="input-control select">
+              <select>
+                <option>Select an operation...</option>
+              <select>
+            </div>
+            <div id="current_period_controls">
+              <div class="input-control text" id="intake_date">
                 <input type="text" placeholder="Date...">
                 <button class="btn-date"></button>
               </div>
-              <div class="input-control select" style="width:19%;">
+              <div class="input-control select">
                 <select>
                   <option>Select a day...</option>
                 <select>
               </div>
-              <div class="input-control text" style="width:19%;">
+              <div class="input-control text">
                 <input type="text" placeholder="Quantity..."></input>
               </div>
-              <div class="input-control select" style="width:19%;">
+              <div class="input-control select">
                 <select>
                   <option>Select an intake...</option>
                 <select>
               </div>
-              <button class="button" style="width:19%;">Add</button>
+              <button class="button large" style="width:100%;">Add</button>
+            </div>
+        </div>
+      </div>
+      </div>
+      <div id="information-container" class="grid-75">
+      <div id="information" class="panel">
+        <div class="panel-header">
+            <h2>Data</h2>
+        </div>
+        <div id="current_period_content">
+        <div id="current_period_status" style="margin:10px;">
+          <div id="current_period_status_header">
+            <h2>Status</h2>
           </div>
-          <div id="current_period_chart"></div>
+          <div id="current_period_status_content">
+            <div class="status_detail">
+              <h3>$8,300.00</h3>
+              <h4>Total</h4>
+            </div>
+            <div class="status_detail">
+              <h3>$4,300.00</h3>
+              <h4>Available</h4>
+            </div>
+            <div class="status_detail">
+              <h3>$300.00</h3>
+              <h4>Available per Day</h4>
+            </div>
+          </div>
         </div>
-        <div id="current_period_records_container" class="frame">
-            <table style="width:90%; margin-left:auto; margin-right:auto;" class="table striped bordered hovered">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Budget Day</th>
-                    <th>Quantity</th>
-                    <th>Intake</th>
-                    <th>Options</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                </tbody>
-            </table>
-        </div>
-        <div id="current_period_budgets_container" class="frame">
-            <table style="width:90%; margin-left:auto; margin-right:auto;" class="table striped bordered hovered">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Budget Day</th>
-                    <th>Quantity</th>
-                    <th>Intake</th>
-                    <th>Options</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                </tbody>
-            </table>
-        </div>
-        <div id="current_period_periods_container" class="frame">
-            <table style="width:90%; margin-left:auto; margin-right:auto;" class="table striped bordered hovered">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Budget Day</th>
-                    <th>Quantity</th>
-                    <th>Intake</th>
-                    <th>Options</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                </tbody>
-            </table>
-        </div>
-        <div id="current_period_reports_container" class="frame">
-            <table style="width:90%; margin-left:auto; margin-right:auto;" class="table striped bordered hovered">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Budget Day</th>
-                    <th>Quantity</th>
-                    <th>Intake</th>
-                    <th>Options</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                  <tr>
-                    <td>DD/MM/YYYY</td>
-                    <td>00</td>
-                    <td>$XXXX.XX</td>
-                    <td>Intake</td>
-                    <td>Modify/Delete</td>
-                  </tr>
-                </tbody>
-            </table>
-        </div>
+        <div id="current_period_management" class="tab-control" data-role="tab-control" style="margin:10px;">
+          <ul class="tabs">
+            <li><a href="#current_period_chart_container">Chart</a></li>
+            <li><a href="#current_period_records_container">Records</a></li>
+            <li><a href="#current_period_budgets_container">Budgets</a></li>
+            <li><a href="#current_period_periods_container">Periods</a></li>
+            <li><a href="#current_period_reports_container">Reports</a></li>
+          </ul>
+          <div class="frames">
+          <div id="current_period_chart_container" class="frame">
+            <div id="current_period_chart"></div>
+          </div>
+          <div id="current_period_records_container" class="frame">
+              <table style="width:90%; margin-left:auto; margin-right:auto;" class="table striped bordered hovered">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Budget Day</th>
+                      <th>Quantity</th>
+                      <th>Intake</th>
+                      <th>Options</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+          <div id="current_period_budgets_container" class="frame">
+              <table style="width:90%; margin-left:auto; margin-right:auto;" class="table striped bordered hovered">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Budget Day</th>
+                      <th>Quantity</th>
+                      <th>Intake</th>
+                      <th>Options</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+          <div id="current_period_periods_container" class="frame">
+              <table style="width:90%; margin-left:auto; margin-right:auto;" class="table striped bordered hovered">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Budget Day</th>
+                      <th>Quantity</th>
+                      <th>Intake</th>
+                      <th>Options</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+          <div id="current_period_reports_container" class="frame">
+              <table style="width:90%; margin-left:auto; margin-right:auto;" class="table striped bordered hovered">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Budget Day</th>
+                      <th>Quantity</th>
+                      <th>Intake</th>
+                      <th>Options</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>DD/MM/YYYY</td>
+                      <td>00</td>
+                      <td>$XXXX.XX</td>
+                      <td>Intake</td>
+                      <td>
+                          <button class="button mini">Modify</button>
+                          <button class="button mini">Delete</button>
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+          </div>
         </div>
       </div>
     </div>
     </div>
+    </div>
+    </div>
 </body>
-
-
 </html>
