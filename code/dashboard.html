@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="plugins/js/jquery/metro-ui/css/metro-bootstrap.css">
   <link rel="stylesheet" href="plugins/js/jquery/metro-ui/css/metro-bootstrap-responsive.css">
   <link rel="stylesheet" type="text/css" href="plugins/css/unsemantic/unsemantic-grid-responsive.css">
+  <link rel="stylesheet" type="text/css" href="plugins/css/unsemantic/unsemantic-grid-mobile.css">
   <script src="plugins/js/jquery/jquery-ui/js/jquery-1.10.2.js"></script>
   <script src="plugins/js/jquery/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
   <script src="plugins/js/jquery/metro-ui/js/min/metro.min.js"></script>
@@ -34,7 +35,7 @@
             [3000,3000,3500,3400,3300,3100,2600,2100,2000,1900,1400,1000,700,200,0]
           ], {
           // Give the plot a title.
-          title: 'Current vs Ideal Intakes',
+          //title: 'Current vs Ideal Intakes',
           // You can specify options for all axes on the plot at once with
           // the axesDefaults object.  Here, we're using a canvas renderer
           // to draw the axis label which allows rotated text.
@@ -47,6 +48,15 @@
             markerOptions: {
               shadow: false       // wether to draw shadow on marker or not.
             }
+          },
+
+          series:[
+            {label:'Ideal Intake'},
+            {label:'Current Intake'}
+          ],
+
+          legend: {
+            show: true
           },
 
           grid: {

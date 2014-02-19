@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>MAF pBA | Personal Budget Administration</title>
+
+  <script class="include" type="text/javascript" src="plugins/js/jquery/jquery_1.9.1.min.js"></script>
+  <link class="include" rel="stylesheet" type="text/css" href="css/style.css" />
+  <link class="include" rel="stylesheet" type="text/css" href="plugins/js/jquery/jqplot/css/jquery.jqplot.min.css" />
+  <!--<link href="plugins/js/jquery/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" rel="stylesheet">-->
+  <link rel="stylesheet" href="plugins/js/jquery/metro-ui/css/metro-bootstrap.css">
+  <link rel="stylesheet" href="plugins/js/jquery/metro-ui/css/metro-bootstrap-responsive.css">
+  <link rel="stylesheet" type="text/css" href="plugins/css/unsemantic/unsemantic-grid-responsive.css">
+  <link rel="stylesheet" type="text/css" href="plugins/css/unsemantic/unsemantic-grid-mobile.css">
+  <script src="plugins/js/jquery/jquery-ui/js/jquery-1.10.2.js"></script>
+  <script src="plugins/js/jquery/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
+  <script src="plugins/js/jquery/metro-ui/js/min/metro.min.js"></script>
+  <script src="plugins/js/jquery/metro-ui/js/metro-calendar.js"></script>
+  <script src="plugins/js/jquery/metro-ui/js/metro-datepicker.js"></script>
+  <script src="plugins/js/jquery/metro-ui/js/metro-tab-control.js"></script>
+  <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="../excanvas.js"></script><![endif]-->
+  <script type="text/javascript" src="plugins/js/jquery/jqplot/js/jquery.jqplot.js"></script>
+  <script type="text/javascript" src="plugins/js/jquery/jqplot/js/plugins/jqplot.canvasTextRenderer.min.js"></script>
+  <script type="text/javascript" src="plugins/js/jquery/jqplot/js/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>  
+  <!--<script src="plugins/js/jquery/columnizer/js/jquery.columnizer.js" type="text/javascript" charset="utf-8"></script>-->
+  <script class="code" type="text/javascript" language="javascript">
+    $(document).ready(function(){
+
+      $( "#intake_date" ).datepicker();
+
+      $( "#current_period_management" ).tabs();
+
+      var plot1 = $.jqplot ('current_period_chart', [
+            [3300.00,2746.67,2193.33,1640.00,1086.67,533.33,480.00,426.67,373.33,320.00,266.67,213.33,160.00,106.67,53.33],
+            [3000,3000,3500,3400,3300,3100,2600,2100,2000,1900,1400,1000,700,200,0]
+          ], {
+          // Give the plot a title.
+          //title: 'Current vs Ideal Intakes',
+          // You can specify options for all axes on the plot at once with
+          // the axesDefaults object.  Here, we're using a canvas renderer
+          // to draw the axis label which allows rotated text.
+          axesDefaults: {
+            labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+          },
+
+          seriesDefaults: {
+            shadow: false,   // show shadow or not.
+            markerOptions: {
+              shadow: false       // wether to draw shadow on marker or not.
+            }
+          },
+
+          series:[
+            {label:'Ideal Intake'},
+            {label:'Current Intake'}
+          ],
+
+          legend: {
+            show: true
+          },
+
+          grid: {
+            drawGridLines: true,        // wether to draw lines across the grid or not.
+            gridLineColor: '#cccccc',    // *Color of the grid lines.
+            background: '#fff',      // CSS color spec for background color of grid.
+            borderColor: '#c5c5c5',     // CSS color spec for border around grid.
+            borderWidth: 2.0,           // pixel width of border around grid.
+            shadow: false,               // draw a shadow for grid.
+            renderer: $.jqplot.CanvasGridRenderer,  // renderer to use to draw the grid.
+            rendererOptions: {}         // options to pass to the renderer.  Note, the default
+                                        // CanvasGridRenderer takes no additional options.
+          },
+          // An axes object holds options for all axes.
+          // Allowable axes are xaxis, x2axis, yaxis, y2axis, y3axis, ...
+          // Up to 9 y axes are supported.
+          axes: {
+            // options for each axis are specified in seperate option objects.
+            xaxis: {
+              label: "Day",
+              // Turn off "padding".  This will allow data point to lie on the
+              // edges of the grid.  Default padding is 1.2 and will keep all
+              // points inside the bounds of the grid.
+              pad: 0
+            },
+            yaxis: {
+              label: "Ammount",
+              labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+            }
+          }
+        });
+
+        $(window).resize(function() {
+          plot1.replot( { resetAxes: true } );
+        });
+
+        //$('#operations').columnize({width: 400});
+    });
+  </script>
+</head>
+<body class="metro">
+    <div id="container">
+    <div id="header">
+      <h1><b>MAF pBA</b> | Personal Budget Administration System</h1>
+    </div>
+    <br/>
+    <div id="content" class="grid-container" style="width: 100%; max-width:none !important; padding: 0px !important; margin: 0px !important;">
+      <div class="grid-25" ><p></p></div>
+      
+      <div id="operations-container" class="grid-50">
+      <div id="operations" class="panel" style="margin-bottom:10px; max-width:300px; margin-left:auto; margin-right:auto;" >
+        <div class="panel-header">
+            <h2>Login</h2>
+        </div>
+        <div class="panel-content">
+
+            <div id="current_period_controls">
+              <label>Sign in to continue...</label>
+              <div class="input-control text">
+                <input type="text" placeholder="User..."></input>
+              </div>
+              <div class="input-control text">
+                <input type="text" placeholder="Password..."></input>
+              </div>
+              <button class="button large" style="width:100%;">Sign in</button>
+            </div>
+        </div>
+      </div>
+      </div>
+
+      <div id="operations-container" class="grid-50" ><p></p></div>
+
+      
+    </div>
+    </div>
+</body>
+</html>
